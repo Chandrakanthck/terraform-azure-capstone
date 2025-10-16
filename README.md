@@ -73,33 +73,32 @@ This project demonstrates **Infrastructure as Code (IaC)** best practices by dep
 
 ## 📂 Project Structure
 
+<pre>
 terraform-azure-capstone/
-├── main.tf # Root Terraform configuration
-├── variables.tf # Input variable definitions
-├── outputs.tf # Output value definitions
-├── terraform.tfvars # Variable values (gitignored)
-├── .gitignore # Git ignore patterns
-├── README.md # Project documentation
-└── modules/ # Terraform modules
-├── vnet/ # Virtual Network module
-│ ├── main.tf
-│ ├── variables.tf
-│ └── outputs.tf
-├── aks/ # AKS Cluster module
-│ ├── main.tf
-│ ├── variables.tf
-│ └── outputs.tf
-├── database/ # Database VM module
-│ ├── main.tf
-│ ├── variables.tf
-│ └── output.tf
-└── k8s_app/ # Kubernetes application module
-├── main.tf
-├── variables.tf
-└── output.tf
-
-text
-
+|-- main.tf                    # Root Terraform configuration
+|-- variables.tf               # Input variable definitions
+|-- outputs.tf                 # Output value definitions
+|-- terraform.tfvars           # Variable values (gitignored)
+|-- .gitignore                 # Git ignore patterns
+|-- README.md                  # Project documentation
+`-- modules/                   # Terraform modules
+    |-- vnet/                  # Virtual Network module
+    |   |-- main.tf
+    |   |-- variables.tf
+    |   `-- outputs.tf
+    |-- aks/                   # AKS Cluster module
+    |   |-- main.tf
+    |   |-- variables.tf
+    |   `-- outputs.tf
+    |-- database/              # Database VM module
+    |   |-- main.tf
+    |   |-- variables.tf
+    |   `-- output.tf
+    `-- k8s_app/               # Kubernetes application module
+        |-- main.tf
+        |-- variables.tf
+        `-- output.tf
+</pre>
 ---
 
 ## 🚀 Quick Start
