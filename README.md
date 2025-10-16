@@ -117,8 +117,6 @@ terraform-azure-capstone/
 git clone https://github.com/Chandrakanthck/terraform-azure-capstone.git
 cd terraform-azure-capstone
 
-text
-
 #### 2️⃣ Configure Variables
 
 Create `terraform.tfvars`:
@@ -147,15 +145,11 @@ db_admin_username = "dbadmin"
 db_admin_password = "YourSecurePassword123!" # Change this!
 db_vm_size = "Standard_B2s"
 
-text
-
 #### 3️⃣ Azure Authentication
 
 az login
 az account show --output table
 az account set --subscription "Azure for Students"
-
-text
 
 #### 4️⃣ Deploy Infrastructure
 
@@ -171,8 +165,6 @@ terraform plan -out=tfplan
 Apply changes (deploys in ~5 minutes)
 terraform apply tfplan
 
-text
-
 #### 5️⃣ Access Kubernetes
 
 Get AKS credentials
@@ -186,8 +178,6 @@ kubectl get nodes
 kubectl get pods -n capstone
 kubectl get svc -n capstone
 
-text
-
 #### 6️⃣ Test Application
 
 Get LoadBalancer IP
@@ -200,7 +190,6 @@ Test endpoint
 curl http://$FRONTEND_IP
 
 Expected: "Backend is running! Connected to database at 10.0.4.4"
-text
 
 ---
 
@@ -213,14 +202,10 @@ text
 cd terraform-azure-capstone
 terraform destroy -auto-approve
 
-text
-
 ### Method 2: Azure CLI
 
 az group delete --name rg-capstone-demo --yes --no-wait
 az group delete --name MC_rg-capstone-demo_aks-capstone-cluster_southeastasia --yes --no-wait
-
-text
 
 ### Method 3: Azure Portal
 
@@ -268,8 +253,6 @@ az account list-locations --query "[?metadata.regionCategory=='Recommended'].nam
 Update location in terraform.tfvars
 location = "southeastasia" # or another allowed region
 
-text
-
 ### Issue 2: LoadBalancer IP Pending
 
 **Symptom:** External IP shows `<pending>`
@@ -281,8 +264,6 @@ text
 
 kubectl describe svc frontend-service -n capstone
 kubectl get events -n capstone --sort-by='.lastTimestamp'
-
-text
 
 ### Issue 3: Pods Not Starting
 
