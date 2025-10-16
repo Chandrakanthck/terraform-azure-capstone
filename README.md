@@ -1,9 +1,9 @@
-[200~# Azure Kubernetes Service (AKS) - Terraform Infrastructure as Code
+# Azure Kubernetes Service (AKS) - Terraform Infrastructure as Code
 
-!Azure
-!Terraform
-!Kubernetes
-!Status
+![Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoft-azure&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Deployed%20%26%20Tested-success?style=for-the-badge)
 
 **Production-grade 3-tier application infrastructure on Microsoft Azure using Terraform and Azure Kubernetes Service (AKS)**
 
@@ -31,30 +31,19 @@ This project demonstrates **Infrastructure as Code (IaC)** best practices by dep
 
 ## 🏗️ Architecture
 
-┌─────────────────────────────────────────────────────────────┐
-│ Azure Cloud │
-├─────────────────────────────────────────────────────────────┤
-│ ┌────────────────────────────────────────────────────┐ │
-│ │ Virtual Network (10.0.0.0/16) │ │
-│ │ ┌──────────────┐ ┌──────────────┐ │ │
-│ │ │ Public Subnet│ │Private Subnet│ │ │
-│ │ │ 10.0.1.0/24 │ │ 10.0.3.0/24 │ │ │
-│ │ │ │ │ │ │ │
-│ │ │ LoadBalancer │───────>│ AKS Cluster │ │ │
-│ │ │ (Public IP) │ │ 2-5 Nodes │ │ │
-│ │ └──────────────┘ └──────┬───────┘ │ │
-│ │ │ │ │
-│ │ ┌───────▼───────┐ │ │
-│ │ │Private Subnet │ │ │
-│ │ │ 10.0.4.0/24 │ │ │
-│ │ │ MariaDB VM │ │ │
-│ │ │ 10.0.4.4 │ │ │
-│ │ └───────────────┘ │ │
-│ └────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────┘
+![Architecture Diagram](https://via.placeholder.com/800x400/0a0a0a/ffffff?text=Azure+Cloud+Architecture)
 
-text
-
+**Network Topology:**
+Azure Cloud
+└── Virtual Network (10.0.0.0/16)
+    ├── Public Subnet (10.0.1.0/24)
+    │   └── Load Balancer (Public IP)
+    │        └── Connects to AKS Cluster
+    ├── Private Subnet (10.0.3.0/24)
+    │   └── AKS Cluster (2-5 Nodes)
+    │        └── Communicates with MariaDB VM
+    └── Private Subnet (10.0.4.0/24)
+        └── MariaDB VM (10.0.4.4)
 ---
 
 ## 📦 Infrastructure Components
@@ -106,10 +95,10 @@ text
 
 ### Prerequisites
 
-- **Azure CLI** - Install
-- **Terraform** ≥ 1.12 - Install
+- **Azure CLI** - [Install](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- **Terraform** ≥ 1.12 - [Install](https://www.terraform.io/downloads)
 - **kubectl** - Auto-installed with AKS credentials
-- **Git** - Install
+- **Git** - [Install](https://git-scm.com/downloads)
 
 ### Deployment Steps
 
@@ -225,7 +214,7 @@ text
 
 ### Method 3: Azure Portal
 
-1. Go to portal.azure.com
+1. Go to [portal.azure.com](https://portal.azure.com)
 2. Navigate to **Resource groups**
 3. Delete `rg-capstone-demo`
 4. Delete `MC_rg-capstone-demo_aks-capstone-cluster_southeastasia`
@@ -234,7 +223,7 @@ text
 
 ## 💰 Cost Estimation
 
-### Full Configuration (24/7)
+### Full Configuration (24/7 Operation)
 
 | Resource | Cost/Month | Percentage |
 |----------|------------|------------|
@@ -242,14 +231,14 @@ text
 | Database VM (Standard_B2s) | $29 | 13% |
 | NAT Gateway | $32 | 14% |
 | Public IPs | $3 | 1% |
-| Storage | $5 | 2% |
+| Storage (Disks) | $5 | 2% |
 | **Total** | **~$228** | **100%** |
 
 ### 💡 Cost Optimization Tips
 
 1. **Reduce node count:** Use 1 node instead of 2 → Save 50%
 2. **Smaller VMs:** Use `Standard_B2s` nodes → Save 70%
-3. **Session-based:** Deploy only when testing → $1.50-2.00 per session
+3. **Session-based deployment:** Deploy only when testing → $1.50-2.00 per session
 
 **Best for learning:** Deploy → Test (2-3 hours) → Destroy  
 **$100 credits = 50-60 learning sessions!**
@@ -258,7 +247,7 @@ text
 
 ## 🛠️ Troubleshooting
 
-### Issue: Region Not Allowed
+### Issue 1: Region Not Allowed
 
 **Error:** `RequestDisallowedByAzure: Resource was disallowed by Azure`
 
@@ -271,7 +260,7 @@ location = "southeastasia" # or another allowed region
 
 text
 
-### Issue: LoadBalancer IP Pending
+### Issue 2: LoadBalancer IP Pending
 
 **Symptom:** External IP shows `<pending>`
 
@@ -285,7 +274,9 @@ kubectl get events -n capstone --sort-by='.lastTimestamp'
 
 text
 
-### Issue: Pods Not Starting
+### Issue 3: Pods Not Starting
+
+**Symptom:** Pods stuck in `Pending` or `ImagePullBackOff`
 
 **Solution:**
 Check pod details
@@ -297,39 +288,26 @@ kubectl logs <pod-name> -n capstone
 Check events
 kubectl get events -n capstone
 
-text
-
 ---
 
 ## 📚 Documentation
 
-- **Terraform Azure Provider:** Documentation
-- **Azure AKS:** Documentation
-- **Kubernetes:** Documentation
+- [Terraform Azure Provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+- [Azure Kubernetes Service (AKS)](https://learn.microsoft.com/en-us/azure/aks/)
+- [Kubernetes Documentation](https://kubernetes.io/docs/)
+- [Azure CLI Reference](https://learn.microsoft.com/en-us/cli/azure/)
 
 ---
 
 ## 🎓 What I Learned
 
-- ✅ Terraform Infrastructure as Code principles
-- ✅ Azure cloud services (AKS, VNet, NSG, NAT Gateway)
-- ✅ Kubernetes deployment and service management
-- ✅ Multi-tier application architecture
-- ✅ Cloud security best practices
-- ✅ Cost optimization strategies
-- ✅ GitOps workflows
-
----
-
-## 🤝 Contributing
-
-This is a personal learning project, but suggestions are welcome!
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/improvement`)
-3. Commit changes (`git commit -m 'Add improvement'`)
-4. Push to branch (`git push origin feature/improvement`)
-5. Open a Pull Request
+- Terraform Infrastructure as Code principles and best practices
+- Azure cloud services (AKS, VNet, NSG, NAT Gateway)
+- Kubernetes deployment and service management
+- Multi-tier application architecture design
+- Cloud security and network isolation
+- Cost optimization strategies for cloud deployments
+- GitOps workflows and version control
 
 ---
 
@@ -341,20 +319,20 @@ This project is open source and available for educational purposes.
 
 ## 👤 Author
 
-**Chandrakanth**
+**Chandrakanth Godasi**
 
-- 📧 Email: chandugodasi@outlook.com
-- 💼 GitHub: @Chandrakanthck
-- 🌐 Project Link: terraform-azure-capstone
+- 📧 Email: [chandugodasi@outlook.com](mailto:chandugodasi@outlook.com)
+- 💼 GitHub: [@Chandrakanthck](https://github.com/Chandrakanthck)
+- 🌐 Project: [terraform-azure-capstone](https://github.com/Chandrakanthck/terraform-azure-capstone)
 
 ---
 
 ## 🙏 Acknowledgments
 
 - **Microsoft Azure** - Cloud platform and Azure for Students program
-- **HashiCorp** - Terraform IaC tool
+- **HashiCorp** - Terraform Infrastructure as Code tool
 - **Kubernetes Community** - Container orchestration platform
-- **GitHub** - Version control and hosting
+- **GitHub** - Version control and code hosting
 
 ---
 
@@ -366,16 +344,5 @@ This project is open source and available for educational purposes.
 ✅ Cost optimization implemented
 ✅ Repository published
 
-text
-
-**Last Updated:** October 16, 2025
-
----
-
-<div align="center">
-
-### ⭐ Star this repository if you found it helpful!
-
-**Made with ❤️ for learning and sharing knowledge**
-
-</div>
+**Last Updated:** October 16, 2025  
+**Version:** 1.0
