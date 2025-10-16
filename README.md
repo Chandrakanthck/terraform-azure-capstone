@@ -31,20 +31,31 @@ This project demonstrates **Infrastructure as Code (IaC)** best practices by dep
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](https://via.placeholder.com/800x400/0a0a0a/ffffff?text=Azure+Cloud+Architecture)
+### Three-Tier Application Design
 
-**Network Topology:**
-Azure Cloud
-└── Virtual Network (10.0.0.0/16)
-    ├── Public Subnet (10.0.1.0/24)
-    │   └── Load Balancer (Public IP)
-    │        └── Connects to AKS Cluster
-    ├── Private Subnet (10.0.3.0/24)
-    │   └── AKS Cluster (2-5 Nodes)
-    │        └── Communicates with MariaDB VM
-    └── Private Subnet (10.0.4.0/24)
-        └── MariaDB VM (10.0.4.4)
----
+**🌐 Tier 1 - Presentation Layer**
+- Azure Load Balancer (Public IP: `57.158.173.19`)
+- Public Subnet: `10.0.1.0/24`
+- Exposes frontend to the internet
+
+**⚙️ Tier 2 - Application Layer**
+- AKS Cluster with 2-5 nodes (`Standard_D2s_v3`)
+- Private Subnet: `10.0.3.0/24`
+- Frontend: 2 Nginx pods
+- Backend: 2 API pods
+
+**💾 Tier 3 - Data Layer**
+- MariaDB on Ubuntu 22.04 VM (`Standard_B2s`)
+- Private Subnet: `10.0.4.0/24`
+- Internal IP: `10.0.4.4`
+
+
+### Architecture Components
+
+- **Load Balancer (Public)**: Exposes frontend service to the internet
+- **AKS Cluster (Private)**: Hosts 2 frontend pods + 2 backend pods
+- **MariaDB VM (Private)**: Database isolated in private subnet
+- **NAT Gateway**: Provides outbound internet access for private resources
 
 ## 📦 Infrastructure Components
 
